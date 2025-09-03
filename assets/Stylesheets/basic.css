@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #232B31;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1000;
+    padding: 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 25px;
+}
+
+.logo img {
+    content: url('../Images/Global/Website Logo.png');
+    
+    display: flex; /* Ensures it behaves like an image */
+
+    justify-content: center;
+    align-content: center;
+
+    width: auto; /* Set desired width */
+    height: 50px; /* This will maintain aspect ratio */
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-links li:hover {
+    transform: scale(1.05);
+    transition: .5s;
+}
+
+.nav-links li:not(:hover) {
+    transform: scale(1);
+    transition: .2s;
+}
+
+#tooltip {
+    visibility: hidden;
+    position: fixed;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    background-color: #111; /* Matches the background from your screenshot */
+    padding: 20px;
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1000px; /* Adjust width as needed */
+    margin: 0 auto; /* Center the footer contents */
+}
+
+.footer-text {
+    color: #bcbcbc; /* Gray text color */
+    font-size: 14px;
+}
