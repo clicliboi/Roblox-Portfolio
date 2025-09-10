@@ -29,6 +29,8 @@ nav {
 .logo img {
     content: url('../Images/Global/Website Logo.png');
 
+    background-color: #161D23;
+
     display: flex; /* Ensures it behaves like an image */
 
     justify-content: center;
@@ -36,6 +38,8 @@ nav {
 
     width: auto; /* Set desired width */
     height: 50px; /* This will maintain aspect ratio */
+
+    border-radius: 100px;
 }
 
 .nav-links {
