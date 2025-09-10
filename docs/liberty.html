@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="Stylesheets/basic.css">
+    <link rel="stylesheet" href="Stylesheets/projectpage.css">
+    <link rel="stylesheet" href="Stylesheets/homepage.css">
+    <link rel="stylesheet" href="Stylesheets/slideshow.css">
+
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-lua.min.js"></script>
+
+    <script type="module" src="Scripts/tools.js"></script>
+    <script type="module" src="Scripts/main.js"></script>
+    <script type="module" src="Scripts/slideshow.js"></script>
+
+    <meta charset="UTF-8">
+    <name name="description" content="Clement Malaka, Game Developer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clicliboi's Portfolio | Home</title>
+</head>
+<body>
+    <header id="baseheader">
+        <nav>
+            <div class="logo">
+                <img alt="Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="segment">
+        <div class="content" style="align-items: center">
+            <h2 class="content-title">🗽 Liberty Statue Tycoon</h2>
+
+            <a class="play" href="https://www.roblox.com/games/8317914163/Liberty-Statue-Tycoon">PLAY</a>
+
+            <h3 class="description">
+                Liberty Statue Tycoon is a game developed by Gamelabs Studio, created by Clicliboi, Gameslamnl1, and Entolecent. 
+                In this game, your goal is to rebuild the destroyed Statue of Liberty from the ground up. 
+                As you progress, you can earn rewards, unlock upgrades, and eventually rebirth to start again with even greater benefits.
+            </h3>
+
+            <div class="slideshow-container" height="500px">
+                <!-- Full-width images with number and caption text -->
+
+                <div class="mySlides">
+                    <div class="slide-container">
+                        <img height="auto" src="Images/Projects/Liberty Tycoon Thumbnail.webp">
+                    </div>
+                    <div class="text">Game Thumbnail</div>
+                </div>
+                <br>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+    </section>
+
+    <section class="segment">
+        <div class="content" style="align-items: center">
+            <h2 class="content-title">ProfileService Integration</h2>
+
+            <h3 class="description">
+                I implemented Roblox's ProfileService to ensure a consistent and secure data structure. 
+                Each player's data is stored as its own dedicated class, making it easier to manage, 
+                organize, and maintain player-specific progress safely across sessions.
+            </h3>
+
+            <div class="slideshow-container" height="500px">
+                <!-- Full-width images with number and caption text -->
+
+                <div class="mySlides">
+                    <div class="slide-container">
+                        <pre class="code-block"><code class="language-lua">-- Services
+local CollectionService = game:GetService("CollectionService")
+local Rep = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+
+-- Children in Rep
+local Packages = Rep:WaitForChild("Packages")
+local GameConfig = Rep:WaitForChild("GameConfig")
+
+-- Modules in Packages
+local Replica = require(Packages.Replica)
+
+local DataSettings = require(GameConfig.Data)
+
+return {
+Data = {},
+
+KnitInit = function(self)
+    shared.ProfileToken = Replica.NewClassToken(DataSettings.DataStore)
+end,
+
+KnitStart = function(self)
+    for _, leaderboard in CollectionService:GetTagged("Leaderboard")do
+        shared.Classes.Leaderboard.new(leaderboard)
+    end
+end,
+
+GetPlayerData = function(self, player: Player)
+    if not rawget(self.Data, player) then warn(`{player.Name} does not have any data`)return end
+    
+    return rawget(self.Data, player).Replica
+end,
+
+Logout = function(self, player: Player)
+    local id = player.UserId
+    local data = rawget(self.Data, player)
+
+    if data then
+        data.Profile:Release()
+        rawset(self.Data, player, nil)
+    end
+end,
+
+Login = function(self, player)
+    self:InitializeData(player)
+end,
+
+InitializeData = function(self, player: Player)
+    if rawget(self.Data, player) then warn(player.DisplayName.." already has data") end
+    
+    local data = shared.Classes.Data.new(player)
+    rawset(self.Data, player, data)
+
+    if not data then
+        player:Kick(DataSettings.Message)
+    end
+end,
+
+SetLeaderboard = function(self, player: Player, ...)
+    local plrData = self:GetPlayerData(player)
+
+    plrData:SetLeaderboard()
+end,
+}
+                    </code></pre>
+                    </div>
+                    <div class="text">Data Service</div>
+                </div>
+
+                <div class="mySlides">
+                    <div class="slide-container">
+                        <pre class="code-block"><code class="language-lua">-- Services
+local Players = game:GetService("Players")
+local Rep = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+
+-- Children in Rep
+local Packages = Rep:WaitForChild("Packages")
+local Libraries = Rep:WaitForChild("Libraries")
+local GameConfig = Rep:WaitForChild("GameConfig")
+
+local Replica = require(Packages.Replica)
+
+local ProfileService = require(Libraries.ProfileService)
+
+local DataSettings = require(GameConfig.Data)
+
+return {	
+	__init__ = function(self, plr: Player)
+		self.Player = plr
+
+		local ProfileStore = ProfileService.GetProfileStore(DataSettings.DataStore, DataSettings.Template)
+
+		local profile = ProfileStore:LoadProfileAsync(DataSettings.Key..plr.UserId)
+
+		if not profile then plr:Kick(DataSettings.Message) return end
+
+		profile:AddUserId(plr.UserId)
+		profile:Reconcile()
+		profile:ListenToRelease(function()
+			plr:Kick(DataSettings.Message)
+			self:Destroy()
+		end)
+
+		if plr:IsDescendantOf(Players)then
+			self.Data = profile.Data
+			self.Profile = profile
+			self.Replica = Replica.NewReplica({
+				ClassToken = shared.ProfileToken,
+				Data = profile.Data,
+				Replication = {
+					[plr] = true
+				}
+			})
+			return self
+		else
+			profile:Release()
+			return
+		end
+	end,
+}
+                    </code></pre>
+                    </div>
+                    <div class="text">Data Class</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+    </section>
+
+    <section class="segment">
+        <div class="content" style="align-items: center">
+            <h2 class="content-title">Airdrop System</h2>
+
+            <h3 class="description">
+              The Airdrop System is a dynamic game mechanic where players can interact with randomly spawned airdrops scattered across the map. 
+              Each airdrop opens a reward roll GUI, giving players a chance to win prizes—including rare, 
+              high-value items—through a probability-based system. Using object-oriented programming, 
+              every airdrop is created as its own instance, ensuring that each drop feels unique and spawns in a different location, 
+              encouraging exploration and player interaction.
+            </h3>
+
+            <div class="slideshow-container" height="500px">
+                <!-- Full-width images with number and caption text -->
+
+                <div class="mySlides">
+                    <div class="slide-container">
+                        <img height="auto" src="Images/Gifs/Liberty Airdrop.gif">
+                    </div>
+                    <div class="text">Airdrop gif</div>
+                </div>
+
+                <div class="mySlides">
+                    <div class="slide-container">
+                        <pre  class="code-block">
+<code class="language-lua">-- Snippet 1
+function ServerClass.new(tycoon, player)
+    local self = setmetatable({}, ServerClass)
+
+    -- instances
+    self.instance = API.Assets.Airdrop
+    self.player = player
+    self.tycoon = tycoon
+
+    --booleans
+    self.active = false
+
+    -- boolvalues
+    self.step = Instance.new("BoolValue")
+    self.step.Value = false
+
+    self.current = ""
+
+    task.spawn(function()
+        self:ResetSpawns()
+        self:Spawn()
+    end)
+
+    return self
+end
+
+function ServerClass:ResetSpawns()
+    for spawnpoint in pairs(self.tycoon. Spawns:GetChildren())do
+        for part in pairs(spawnpoint GetChildren(0))do
+            if not part:IsA("BasePart")then continue end
+            part.Transparency = 1
+        end
+    end
+end
+                        </code></pre>
+                    </div>
+                    <div class="text">Airdrop snippet 1</div>
+                </div>
+                <div class="mySlides">
+                    <div class="slide-container">
+                        <pre  class="code-block"><code class="language-lua">-- Snippet 2
+Function ServerClass: Spawn()
+    for i = 1, math.huge, 1 do
+        if not self.tycoon then print("i have been broken") break end
+
+        if self.active then continue end
+        self.active = not self.active
+
+        local claimed = false
+        local triggered = false
+
+        local remoteEvent
+        local spawn
+
+        local time = math.random(Properties.minTime, Properties.maxTime)
+        
+        task.wait(time)
+
+        local spawns = self.tycoon.Spawns
+        local randomSpawn = math.random(1, #spawns:GetChildren())
+
+        for index, spawnpoint in pairs(spawns:GetChildren())do
+            if index ~= randomSpawn then continue end
+
+            spawn = spawnpoint
+            break
+        end
+
+        for part in pairs(spawn GetChildren())do
+            if not part:IsA("BasePart")then continue end
+            if part.Name == "WeldPart" then continue end
+            if part.Name == "MainPart" then continue end
+
+            part.Transparency = 0
+        end
+
+        local airdrop = self.instance:Clone()
+        airdrop.Parent = workspace
+
+        self.current = airdrop
+    end
+end                      
+                        </code></pre>
+                    </div>
+                    <div class="text">Airdrop snippet 2</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a id="tooltip"><a>
+
+    <footer>
+        <div class="footer-container">
+            <p class="footer-text">Made by Clement Malaka</p>
+        </div>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            for (const slide of document.getElementsByClassName("slideshow-container")) {
+                SetSlider(slide)
+            }
+        };
+    </script>
+</body>
+
+</html>

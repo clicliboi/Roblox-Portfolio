@@ -26,6 +26,8 @@
 .content {
     align-self: center;
     justify-self: center;
+    align-items: center;
+
     background-color: #2C343A;
     flex-direction: column;
     display: flex;
@@ -33,15 +35,47 @@
     width: 90%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
+
+    gap: 10px;
 }
+
+.project-container {
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+
+    flex-direction: row;
+    display: flex;
+    height: 70%;
+    width: 100%;
+    gap: 20px;
+    place-content: center;
+}
+
+.content-holder {
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+
+    background-color: #2C343A;
+    flex-direction: row;
+    display: flex;
+    height: 95%;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
 
 .content-title {
     align-self: center;
     justify-self: center;
-    display: flex;
+    display: block;
     font-size: 50px;
     padding-top: 20px;
+    margin-bottom: 20px;
     color: #ffffff;
+    text-align: center;
 }
 
 .profile {
@@ -168,11 +202,15 @@
     color: white;
     border: none;
     padding: 15px 30px;
-    font-size: 16px;
+    font-size: 12px;
     cursor: pointer;
     border-radius: 5px;
     margin-top: 30px;
+
+    max-width: 60%;
+
     text-transform: uppercase;
+    text-align: center;
 }
 
 .view-all:not(:hover) {
@@ -191,14 +229,14 @@
     padding: 20px;
     padding-inline: 10%;
     text-align: center;
-    background-color: #494949;
+    background-color: #2C343A;
     color: white;
     height: 100%;
 }
 
 .skill-card {
     list-style: none;
-    background-color: #2c2c2c;
+    background-color: #161D23;
     padding: 5px;
     border-radius: 10px;
     width: 220px;
@@ -221,7 +259,8 @@
 .skill-card h3 {
     font-size: 500%;
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (max-width: 943px) {
     .intro {
         flex-direction: flex; /* Stack elements vertically */
         padding: 20px; /* Reduce padding for smaller screens */
@@ -245,11 +284,6 @@
         width: 175px; /* Reduce profile picture size for small screens */
     }
 
-    .social-links {
-        height: 100%;
-        width: 100%;
-    }
-
     .intro-text h1 {
         font-size: 350%;
     }
@@ -266,12 +300,38 @@
         width: 150px; /* Smallest image size for very small screens */
     }
 
-    .social-links a img {
-        width: 30px; /* Smallest social icon size */
+    .social-links img {
+        width: auto; /* Smallest social icon size */
+        height: 50px;
+    }
+
+    .social-link a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        background-color: #2152BC;
+        border-radius: 15px;
+        width: 60px;
+
+        font-size: 10px;
+    }
+
+    .social-link a:hover {
+        background-color: #234da8;
+    }
+
+    .social-link h3 {
+        font-size: 10px;
+        color: white;
+        margin: 0;
+        align-self: center;
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 607px) {
     .intro {
         flex-direction: column; /* Stack elements vertically */
         padding: 20px; /* Reduce padding for smaller screens */
@@ -297,11 +357,6 @@
         width: 175px; /* Reduce profile picture size for small screens */
     }
 
-    .social-links {
-        height: 100%;
-        width: 100%;
-    }
-
     .intro-text h1 {
         font-size: 60px;
     }
@@ -320,5 +375,30 @@
 
     .social-links a img {
         width: 30px; /* Smallest social icon size */
+    }
+
+    .social-link {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        background-color: #2152BC;
+        border-radius: 15px;
+        width: 60px;
+
+        font-size: 10px;
+    }
+
+    .social-link a:hover {
+        background-color: #234da8;
+    }
+
+    .social-link h3 {
+        font-size: 10px;
+        color: white;
+        margin: 0;
+        align-self: center;
     }
 }

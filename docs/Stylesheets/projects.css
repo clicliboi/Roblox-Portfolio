@@ -4,8 +4,6 @@
 
 .container-title {
     margin: 20px 0px 10px;
-
-    background-color: rgb(40, 40, 40);
     
     white-space: nowrap;
     overflow: hidden;
@@ -136,6 +134,6 @@
 
 .view:hover {
     background-color: #555;
-    transform: scale(1.02);
-    transition: .5s;
+    transform: scale(1.05);
+    transition: .2s;
 }
